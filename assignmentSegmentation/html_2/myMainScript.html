@@ -1,0 +1,460 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-09-02"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Your code here</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">tic;
+</pre><h2>Your code here<a name="2"></a></h2><pre class="codeinput">img_raw = imread(<span class="string">'../data/baboonColor.png'</span>);
+img_smooth = imgaussfilt(mat2gray(img_raw),1);
+
+[M,N,C] = size(img_smooth);
+img = img_smooth(1:2:M,1:2:N,:);
+my_display(img,<span class="string">'orig.png'</span>);
+<span class="comment">% res = myMeanShiftSegmentation(img,0.1,2,3,20);</span>
+
+sigma_S = [8,16,20,24];
+    sigma_I = [0.04,0.08,0.10,0.12,0.25];
+    noOfNeighbours = 250;
+    max_iter = [15];
+    t=1;
+    <span class="keyword">for</span> i = 1:size(sigma_S,2)
+        <span class="keyword">for</span> j = 1:size(sigma_I,2)
+            <span class="keyword">for</span> k = 1:size(max_iter,2)
+                tic;
+                res= myMeanShiftSegmentation(img,t,sigma_I(j),sigma_S(i),max_iter(k));
+<span class="comment">%</span>
+                my_display(res(:,:,1:3),strcat(<span class="string">'img s_x='</span>,num2str(sigma_S(i)),<span class="string">' s_I='</span>,num2str(sigma_I(j)),<span class="string">' iter='</span>,num2str(max_iter(k)),<span class="string">'.png'</span>));
+
+                toc;
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+
+
+toc;
+</pre><pre class="codeoutput">Elapsed time is 2.758032 seconds.
+Elapsed time is 2.500644 seconds.
+Elapsed time is 2.399512 seconds.
+Elapsed time is 2.323309 seconds.
+Elapsed time is 2.358910 seconds.
+Elapsed time is 2.364158 seconds.
+Elapsed time is 2.341606 seconds.
+Elapsed time is 2.317348 seconds.
+Elapsed time is 2.216849 seconds.
+Elapsed time is 2.167726 seconds.
+Elapsed time is 2.174872 seconds.
+Elapsed time is 2.271517 seconds.
+Elapsed time is 2.319333 seconds.
+Elapsed time is 2.276972 seconds.
+Elapsed time is 2.287564 seconds.
+Elapsed time is 2.658470 seconds.
+Elapsed time is 2.531074 seconds.
+Elapsed time is 2.415688 seconds.
+Elapsed time is 2.510477 seconds.
+Elapsed time is 2.437254 seconds.
+Elapsed time is 2.351166 seconds.
+Elapsed time is 2.297637 seconds.
+Elapsed time is 2.368910 seconds.
+Elapsed time is 2.384687 seconds.
+Elapsed time is 2.337349 seconds.
+Elapsed time is 2.456438 seconds.
+Elapsed time is 2.445392 seconds.
+Elapsed time is 2.400628 seconds.
+Elapsed time is 2.209162 seconds.
+Elapsed time is 2.131447 seconds.
+Elapsed time is 2.138353 seconds.
+Elapsed time is 2.506919 seconds.
+Elapsed time is 2.656968 seconds.
+Elapsed time is 2.658116 seconds.
+Elapsed time is 2.600034 seconds.
+Elapsed time is 2.364549 seconds.
+Elapsed time is 2.200500 seconds.
+Elapsed time is 2.177208 seconds.
+Elapsed time is 2.304737 seconds.
+Elapsed time is 2.331355 seconds.
+Elapsed time is 2.432565 seconds.
+Elapsed time is 2.434989 seconds.
+Elapsed time is 2.437099 seconds.
+Elapsed time is 2.394713 seconds.
+Elapsed time is 2.187231 seconds.
+Elapsed time is 2.124634 seconds.
+Elapsed time is 2.125005 seconds.
+Elapsed time is 2.477050 seconds.
+Elapsed time is 2.472130 seconds.
+Elapsed time is 2.377361 seconds.
+Elapsed time is 2.264259 seconds.
+Elapsed time is 2.442632 seconds.
+Elapsed time is 2.371678 seconds.
+Elapsed time is 2.316402 seconds.
+Elapsed time is 2.399819 seconds.
+Elapsed time is 2.299158 seconds.
+Elapsed time is 2.109554 seconds.
+Elapsed time is 2.124952 seconds.
+Elapsed time is 2.248551 seconds.
+Elapsed time is 2.286135 seconds.
+Elapsed time is 2.441749 seconds.
+Elapsed time is 2.420831 seconds.
+Elapsed time is 2.263672 seconds.
+Elapsed time is 2.620945 seconds.
+Elapsed time is 2.383798 seconds.
+Elapsed time is 2.351000 seconds.
+Elapsed time is 2.387757 seconds.
+Elapsed time is 2.331840 seconds.
+Elapsed time is 2.173325 seconds.
+Elapsed time is 2.141966 seconds.
+Elapsed time is 2.118078 seconds.
+Elapsed time is 2.132449 seconds.
+Elapsed time is 2.407737 seconds.
+Elapsed time is 2.255185 seconds.
+Elapsed time is 2.259676 seconds.
+Elapsed time is 2.349527 seconds.
+Elapsed time is 2.262565 seconds.
+Elapsed time is 2.127052 seconds.
+Elapsed time is 2.131537 seconds.
+Elapsed time is 2.509533 seconds.
+Elapsed time is 3.111235 seconds.
+Elapsed time is 3.011660 seconds.
+Elapsed time is 2.798956 seconds.
+Elapsed time is 2.416970 seconds.
+Elapsed time is 2.269552 seconds.
+Elapsed time is 2.255632 seconds.
+Elapsed time is 2.218334 seconds.
+Elapsed time is 2.198838 seconds.
+Elapsed time is 2.187467 seconds.
+Elapsed time is 2.178117 seconds.
+Elapsed time is 2.176516 seconds.
+Elapsed time is 2.169266 seconds.
+Elapsed time is 2.180436 seconds.
+Elapsed time is 2.173568 seconds.
+Elapsed time is 2.351285 seconds.
+Elapsed time is 2.721786 seconds.
+Elapsed time is 2.868694 seconds.
+Elapsed time is 2.550079 seconds.
+Elapsed time is 2.406489 seconds.
+Elapsed time is 2.436154 seconds.
+Elapsed time is 2.408820 seconds.
+Elapsed time is 2.259547 seconds.
+Elapsed time is 2.188861 seconds.
+Elapsed time is 2.174616 seconds.
+Elapsed time is 2.210785 seconds.
+Elapsed time is 2.501534 seconds.
+Elapsed time is 2.730366 seconds.
+Elapsed time is 2.651575 seconds.
+Elapsed time is 2.340153 seconds.
+Elapsed time is 2.324928 seconds.
+Elapsed time is 2.310905 seconds.
+Elapsed time is 2.703250 seconds.
+Elapsed time is 2.865671 seconds.
+Elapsed time is 2.607901 seconds.
+Elapsed time is 2.492764 seconds.
+Elapsed time is 2.424481 seconds.
+Elapsed time is 2.384992 seconds.
+Elapsed time is 2.355909 seconds.
+Elapsed time is 2.397233 seconds.
+Elapsed time is 2.486183 seconds.
+Elapsed time is 2.448364 seconds.
+Elapsed time is 2.525301 seconds.
+Elapsed time is 2.639230 seconds.
+Elapsed time is 2.620673 seconds.
+Elapsed time is 2.381430 seconds.
+Elapsed time is 2.302989 seconds.
+Elapsed time is 2.276176 seconds.
+Elapsed time is 2.665235 seconds.
+Elapsed time is 2.796449 seconds.
+Elapsed time is 2.596626 seconds.
+Elapsed time is 2.538402 seconds.
+Elapsed time is 2.596166 seconds.
+Elapsed time is 2.597774 seconds.
+Elapsed time is 2.613130 seconds.
+Elapsed time is 2.794847 seconds.
+Elapsed time is 2.468899 seconds.
+Elapsed time is 2.307339 seconds.
+Elapsed time is 2.490408 seconds.
+Elapsed time is 2.662933 seconds.
+Elapsed time is 2.680666 seconds.
+Elapsed time is 2.649408 seconds.
+Elapsed time is 2.645942 seconds.
+Elapsed time is 2.569781 seconds.
+Elapsed time is 2.940928 seconds.
+Elapsed time is 2.674271 seconds.
+Elapsed time is 2.497447 seconds.
+Elapsed time is 2.407447 seconds.
+Elapsed time is 2.388949 seconds.
+Elapsed time is 2.329671 seconds.
+Elapsed time is 2.443321 seconds.
+Elapsed time is 2.424004 seconds.
+Elapsed time is 2.213232 seconds.
+Elapsed time is 2.100601 seconds.
+Elapsed time is 2.593077 seconds.
+Elapsed time is 2.620150 seconds.
+Elapsed time is 2.189805 seconds.
+Elapsed time is 2.436687 seconds.
+Elapsed time is 2.486043 seconds.
+Elapsed time is 2.359575 seconds.
+Elapsed time is 2.723007 seconds.
+Elapsed time is 2.946516 seconds.
+Elapsed time is 2.801453 seconds.
+Elapsed time is 2.664005 seconds.
+Elapsed time is 2.638657 seconds.
+Elapsed time is 2.576710 seconds.
+Elapsed time is 2.329802 seconds.
+Elapsed time is 2.401308 seconds.
+Elapsed time is 2.686666 seconds.
+Elapsed time is 2.962589 seconds.
+Elapsed time is 2.730999 seconds.
+Elapsed time is 2.959655 seconds.
+Elapsed time is 2.714357 seconds.
+Elapsed time is 2.225625 seconds.
+Elapsed time is 2.293127 seconds.
+Elapsed time is 3.011293 seconds.
+Elapsed time is 3.420254 seconds.
+Elapsed time is 3.061913 seconds.
+Elapsed time is 2.622919 seconds.
+Elapsed time is 2.391317 seconds.
+Elapsed time is 2.472658 seconds.
+Elapsed time is 2.858382 seconds.
+Elapsed time is 3.030230 seconds.
+Elapsed time is 2.553544 seconds.
+Elapsed time is 2.799173 seconds.
+Elapsed time is 2.288994 seconds.
+Elapsed time is 2.442166 seconds.
+Elapsed time is 2.955204 seconds.
+Elapsed time is 3.318752 seconds.
+Elapsed time is 2.649615 seconds.
+Elapsed time is 2.712625 seconds.
+Elapsed time is 2.774403 seconds.
+Elapsed time is 3.136541 seconds.
+Elapsed time is 2.960201 seconds.
+Elapsed time is 3.124720 seconds.
+Elapsed time is 3.186591 seconds.
+Elapsed time is 3.293379 seconds.
+Elapsed time is 3.184819 seconds.
+Elapsed time is 2.754507 seconds.
+Elapsed time is 2.364999 seconds.
+Elapsed time is 2.234296 seconds.
+Elapsed time is 2.610927 seconds.
+Elapsed time is 2.145041 seconds.
+Elapsed time is 2.198767 seconds.
+Elapsed time is 3.465612 seconds.
+Elapsed time is 2.568774 seconds.
+Elapsed time is 2.604263 seconds.
+Elapsed time is 2.454694 seconds.
+Elapsed time is 2.817216 seconds.
+Elapsed time is 2.590326 seconds.
+Elapsed time is 2.511098 seconds.
+Elapsed time is 2.429217 seconds.
+Elapsed time is 2.298796 seconds.
+Elapsed time is 2.253070 seconds.
+Elapsed time is 2.198291 seconds.
+Elapsed time is 2.182605 seconds.
+Elapsed time is 2.293689 seconds.
+Elapsed time is 2.197809 seconds.
+Elapsed time is 2.144877 seconds.
+Elapsed time is 2.261856 seconds.
+Elapsed time is 2.336837 seconds.
+Elapsed time is 2.273160 seconds.
+Elapsed time is 2.270526 seconds.
+Elapsed time is 2.239851 seconds.
+Elapsed time is 2.618329 seconds.
+Elapsed time is 2.770170 seconds.
+Elapsed time is 2.464417 seconds.
+Elapsed time is 2.410892 seconds.
+Elapsed time is 2.383202 seconds.
+Elapsed time is 2.283247 seconds.
+Elapsed time is 2.197201 seconds.
+Elapsed time is 2.343981 seconds.
+Elapsed time is 2.261767 seconds.
+Elapsed time is 2.455710 seconds.
+Elapsed time is 2.392229 seconds.
+Elapsed time is 2.696499 seconds.
+Elapsed time is 2.271303 seconds.
+Elapsed time is 2.403116 seconds.
+Elapsed time is 2.440702 seconds.
+Elapsed time is 2.420553 seconds.
+Elapsed time is 2.802394 seconds.
+Elapsed time is 2.832223 seconds.
+Elapsed time is 2.607112 seconds.
+Elapsed time is 2.521822 seconds.
+Elapsed time is 2.456463 seconds.
+Elapsed time is 2.332103 seconds.
+Elapsed time is 2.242963 seconds.
+Elapsed time is 2.218309 seconds.
+Elapsed time is 2.150521 seconds.
+Elapsed time is 2.171635 seconds.
+Elapsed time is 2.260072 seconds.
+Elapsed time is 2.996271 seconds.
+Elapsed time is 2.593813 seconds.
+Elapsed time is 2.750822 seconds.
+Elapsed time is 2.165332 seconds.
+Elapsed time is 2.283780 seconds.
+Elapsed time is 2.642539 seconds.
+Elapsed time is 3.097418 seconds.
+Elapsed time is 2.572796 seconds.
+Elapsed time is 2.461571 seconds.
+Elapsed time is 2.435997 seconds.
+Elapsed time is 2.570410 seconds.
+Elapsed time is 2.408650 seconds.
+Elapsed time is 2.765774 seconds.
+Elapsed time is 2.258483 seconds.
+Elapsed time is 2.176403 seconds.
+Elapsed time is 2.168881 seconds.
+Elapsed time is 2.140686 seconds.
+Elapsed time is 2.142135 seconds.
+Elapsed time is 2.419044 seconds.
+Elapsed time is 2.704438 seconds.
+Elapsed time is 2.233797 seconds.
+Elapsed time is 2.594726 seconds.
+Elapsed time is 2.881759 seconds.
+Elapsed time is 2.662804 seconds.
+Elapsed time is 2.576539 seconds.
+Elapsed time is 2.902347 seconds.
+Elapsed time is 2.455187 seconds.
+Elapsed time is 2.387688 seconds.
+Elapsed time is 2.358334 seconds.
+Elapsed time is 2.279961 seconds.
+Elapsed time is 2.205125 seconds.
+Elapsed time is 2.599373 seconds.
+Elapsed time is 2.642106 seconds.
+Elapsed time is 2.626630 seconds.
+Elapsed time is 2.322795 seconds.
+Elapsed time is 2.297148 seconds.
+Elapsed time is 2.160046 seconds.
+Elapsed time is 2.509346 seconds.
+Elapsed time is 2.959245 seconds.
+Elapsed time is 3.190766 seconds.
+Elapsed time is 3.259963 seconds.
+Elapsed time is 3.587072 seconds.
+Elapsed time is 2.621075 seconds.
+Elapsed time is 2.493823 seconds.
+Elapsed time is 2.246455 seconds.
+Elapsed time is 2.142882 seconds.
+Elapsed time is 2.259507 seconds.
+Elapsed time is 2.143897 seconds.
+Elapsed time is 2.124546 seconds.
+Elapsed time is 2.164264 seconds.
+Elapsed time is 2.294163 seconds.
+Elapsed time is 2.559284 seconds.
+Elapsed time is 2.583327 seconds.
+Elapsed time is 2.978081 seconds.
+Elapsed time is 2.501274 seconds.
+Elapsed time is 2.388708 seconds.
+Elapsed time is 2.327049 seconds.
+Elapsed time is 2.768352 seconds.
+Elapsed time is 2.275079 seconds.
+Elapsed time is 2.390287 seconds.
+Elapsed time is 2.221073 seconds.
+Elapsed time is 2.213136 seconds.
+Elapsed time is 2.175285 seconds.
+Elapsed time is 2.537318 seconds.
+Elapsed time is 3.044368 seconds.
+Elapsed time is 2.644148 seconds.
+Elapsed time is 2.396372 seconds.
+Elapsed time is 2.442556 seconds.
+Elapsed time is 2.591518 seconds.
+Elapsed time is 3.087595 seconds.
+Elapsed time is 3.087812 seconds.
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_07.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_09.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_10.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_11.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_12.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_13.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_14.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_15.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_16.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_17.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_18.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_19.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_20.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_21.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% Your code here
+
+img_raw = imread('../data/baboonColor.png');
+img_smooth = imgaussfilt(mat2gray(img_raw),1);
+
+[M,N,C] = size(img_smooth); 
+img = img_smooth(1:2:M,1:2:N,:);
+my_display(img,'orig.png');
+% res = myMeanShiftSegmentation(img,0.1,2,3,20);
+
+sigma_S = [8,16,20,24];
+    sigma_I = [0.04,0.08,0.10,0.12,0.25];
+    noOfNeighbours = 250;
+    max_iter = [15];
+    t=1;
+    for i = 1:size(sigma_S,2)
+        for j = 1:size(sigma_I,2)
+            for k = 1:size(max_iter,2)
+                tic;
+                res= myMeanShiftSegmentation(img,t,sigma_I(j),sigma_S(i),max_iter(k));
+%                 
+                my_display(res(:,:,1:3),strcat('img s_x=',num2str(sigma_S(i)),' s_I=',num2str(sigma_I(j)),' iter=',num2str(max_iter(k)),'.png'));
+               
+                toc;
+            end
+          
+        end
+    end
+
+
+
+toc;
+
+##### SOURCE END #####
+--></body></html>

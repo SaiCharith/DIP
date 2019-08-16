@@ -1,0 +1,331 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-06"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Loading images</a></li><li><a href="#3">Linear Contrast Enhancing - barbara</a></li><li><a href="#4">Formula used I_new = ((I_old - I_min) / (I_max- I_min) )*255</a></li><li><a href="#5">Linear Contrast Enhancing - TEM</a></li><li><a href="#6">Linear Contrast Enhancing - canyon</a></li><li><a href="#7">Linear Contrast Enhancing - church</a></li><li><a href="#8">The image given is better than the image obtained using Linear Contrast</a></li><li><a href="#9">Enhancing(LCE). By doing LCE darker regions turned more darker(reduction in contrast as well)</a></li><li><a href="#10">and hence the image became much more difficult to understand.</a></li><li><a href="#12">HE - barbara</a></li><li><a href="#13">HE - TEM</a></li><li><a href="#14">HE - canyon</a></li><li><a href="#15">HE - church</a></li><li><a href="#16">In this image clearly HE did much better than LCE. Definately HE would be preffered to enhance contrast</a></li><li><a href="#17">rather than LCE.</a></li><li><a href="#18">HM - Retina</a></li><li><a href="#19">Retina looked more realistic using HM compared to HE.</a></li><li><a href="#20">Retina after HM and given retina are very simmilar.</a></li><li><a href="#21">AHE - barbara</a></li><li><a href="#22">AHE - TEM</a></li><li><a href="#23">AHE - canyon</a></li><li><a href="#24">CLAHE - barbara</a></li><li><a href="#25">CLAHE - TEM</a></li><li><a href="#26">CLAHE - canyon</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">clc;
+clear;
+close <span class="string">all</span>;
+
+tic;
+</pre><h2>Loading images<a name="2"></a></h2><pre class="codeinput">im1 = imread(<span class="string">'../data/barbara.png'</span>);
+im2 = imread(<span class="string">'../data/TEM.png'</span>);
+im3 = imread(<span class="string">'../data/canyon.png'</span>);
+im4 = imread(<span class="string">'../data/retina.png'</span>);
+im5 = imread(<span class="string">'../data/church.png'</span>);
+
+im6 = imread(<span class="string">'../data/retinaMask.png'</span>);
+im7 = imread(<span class="string">'../data/retinaRef.png'</span>);
+im8 = imread(<span class="string">'../data/retinaRefMask.png'</span>);
+</pre><h2>Linear Contrast Enhancing - barbara<a name="3"></a></h2><h2>Formula used I_new = ((I_old - I_min) / (I_max- I_min) )*255<a name="4"></a></h2><pre class="codeinput">my_display(im1,<span class="string">'original'</span>);
+I = myLinearContrastStretching(im1);
+my_display(I,<span class="string">'stretched'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <h2>Linear Contrast Enhancing - TEM<a name="5"></a></h2><pre class="codeinput">my_display(im2,<span class="string">'original'</span>);
+I = myLinearContrastStretching(im2);
+my_display(I,<span class="string">'stretched'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <h2>Linear Contrast Enhancing - canyon<a name="6"></a></h2><pre class="codeinput">my_display(im3,<span class="string">'original'</span>);
+I = myLinearContrastStretching(im3);
+my_display(I,<span class="string">'stretched'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> <h2>Linear Contrast Enhancing - church<a name="7"></a></h2><h2>The image given is better than the image obtained using Linear Contrast<a name="8"></a></h2><h2>Enhancing(LCE). By doing LCE darker regions turned more darker(reduction in contrast as well)<a name="9"></a></h2><h2>and hence the image became much more difficult to understand.<a name="10"></a></h2><pre class="codeinput">my_display(im5,<span class="string">'original'</span>);
+I = myLinearContrastStretching(im5);
+my_display(I,<span class="string">'stretched'</span>);
+</pre><pre class="codeoutput">
+</pre><img vspace="5" hspace="5" src="myMainScript_07.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> <h2>HE - barbara<a name="12"></a></h2><pre class="codeinput">my_display(im1,<span class="string">'original'</span>);
+I = myHE(im1);
+my_display(I,<span class="string">'After HE'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_09.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_10.png" alt=""> <h2>HE - TEM<a name="13"></a></h2><pre class="codeinput">my_display(im2,<span class="string">'original'</span>);
+I = myHE(im2);
+my_display(I,<span class="string">'After HE'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_11.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_12.png" alt=""> <h2>HE - canyon<a name="14"></a></h2><pre class="codeinput">my_display(im3,<span class="string">'original'</span>);
+I = myHE(im3);
+my_display(I,<span class="string">'After HE'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_13.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_14.png" alt=""> <h2>HE - church<a name="15"></a></h2><h2>In this image clearly HE did much better than LCE. Definately HE would be preffered to enhance contrast<a name="16"></a></h2><h2>rather than LCE.<a name="17"></a></h2><pre class="codeinput">my_display(im5,<span class="string">'original'</span>);
+I = myHE(im5);
+my_display(I,<span class="string">'After HE'</span>);
+</pre><pre class="codeoutput">
+</pre><img vspace="5" hspace="5" src="myMainScript_15.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_16.png" alt=""> <h2>HM - Retina<a name="18"></a></h2><h2>Retina looked more realistic using HM compared to HE.<a name="19"></a></h2><h2>Retina after HM and given retina are very simmilar.<a name="20"></a></h2><pre class="codeinput">my_display(im4,<span class="string">'original'</span>);
+
+B = imhist(im6);
+
+<span class="keyword">for</span> k=1:size(im4,3)
+
+    A = imhist(im4(:,:,k));
+
+    A(1) = A(1) - B(1);
+    A = cumsum(A);
+    A = A/A(256);
+    <span class="keyword">for</span> i=1:size(im4,1)
+       im(i,:,k) = A(im4(i,:,k)+1)*255;
+    <span class="keyword">end</span>
+
+
+    x= im(:,:,k).*im6;
+    Iy(:,:,k) = x;
+<span class="keyword">end</span>
+
+my_display(Iy,<span class="string">'After HE'</span>);
+
+I = myHM(im4,im7,im6,im8);
+my_display(I,<span class="string">'After HM'</span>);
+</pre><pre class="codeoutput">
+</pre><img vspace="5" hspace="5" src="myMainScript_17.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_18.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_19.png" alt=""> <h2>AHE - barbara<a name="21"></a></h2><pre class="codeinput">my_display(im1,<span class="string">'original'</span>);
+I = myAHE(im1,300);
+my_display(I,<span class="string">'After AHE (large window size (300))'</span>);
+I = myAHE(im1,150);
+my_display(I,<span class="string">'After AHE (optimal 150)'</span>);
+I = myAHE(im1,25);
+my_display(I,<span class="string">'After AHE (small window size(25))'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_20.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_21.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_22.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_23.png" alt=""> <h2>AHE - TEM<a name="22"></a></h2><pre class="codeinput">my_display(im2,<span class="string">'original'</span>);
+I = myAHE(im2,300);
+my_display(I,<span class="string">'After AHE (large window size (300))'</span>);
+I = myAHE(im2,100);
+my_display(I,<span class="string">'After AHE (optimal(100))'</span>);
+I = myAHE(im2,25);
+my_display(I,<span class="string">'After AHE (small window size(25))'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_24.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_25.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_26.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_27.png" alt="">  <h2>AHE - canyon<a name="23"></a></h2><pre class="codeinput">my_display(im3,<span class="string">'original'</span>);
+I = myAHE(im3,500);
+my_display(I,<span class="string">'After AHE (large window size(500)'</span>);
+I = myAHE(im3,250);
+my_display(I,<span class="string">'After AHE (optimal (250))'</span>);
+I = myAHE(im3,50);
+my_display(I,<span class="string">'After AHE (small window size(50))'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_28.png" alt=""><img vspace="5" hspace="5" src="myMainScript_29.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_30.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_31.png" alt=""> <h2>CLAHE - barbara<a name="24"></a></h2><pre class="codeinput">my_display(im1,<span class="string">'original'</span>);
+I = myCLAHE(im1,150,0.96);
+my_display(I,<span class="string">'After CLAHE(W=150,T=0.96)'</span>);
+
+I = myCLAHE(im1,150,0.48);
+my_display(I,<span class="string">'After CLAHE(W=150,T=0.48)'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_32.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_33.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_34.png" alt=""> <h2>CLAHE - TEM<a name="25"></a></h2><pre class="codeinput">my_display(im2,<span class="string">'original'</span>);
+I = myCLAHE(im2,100,0.98);
+my_display(I,<span class="string">'After CLAHE(W=100,T=0.98)'</span>);
+
+
+I = myCLAHE(im2,100,0.49);
+my_display(I,<span class="string">'After CLAHE(W=100,T=0.49)'</span>);
+</pre><pre class="codeoutput">MEvent. CASE!
+
+</pre><img vspace="5" hspace="5" src="myMainScript_35.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_36.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_37.png" alt="">  <img vspace="5" hspace="5" src="myMainScript_41.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_42.png" alt=""> <h2>CLAHE - canyon<a name="26"></a></h2><pre class="codeinput">my_display(im3,<span class="string">'original'</span>);
+I = myCLAHE(im3,200,0.99);
+my_display(I,<span class="string">'After CLAHE(W=200,T=0.99)'</span>);
+
+
+I = myCLAHE(im3,200,0.49);
+my_display(I,<span class="string">'After CLAHE(W=200,T=0.49)'</span>);
+</pre><pre class="codeoutput">MEvent. CASE!
+
+</pre><img vspace="5" hspace="5" src="myMainScript_38.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_39.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_40.png" alt=""><pre class="codeinput">toc;
+</pre><pre class="codeoutput">Elapsed time is 668.000481 seconds.
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+clc;
+clear;
+close all;
+
+tic;
+%% Loading images
+im1 = imread('../data/barbara.png');
+im2 = imread('../data/TEM.png');
+im3 = imread('../data/canyon.png');
+im4 = imread('../data/retina.png');
+im5 = imread('../data/church.png');
+
+im6 = imread('../data/retinaMask.png');
+im7 = imread('../data/retinaRef.png');
+im8 = imread('../data/retinaRefMask.png');
+
+%% Linear Contrast Enhancing - barbara
+%%% Formula used I_new = ((I_old - I_min) / (I_max- I_min) )*255 
+
+my_display(im1,'original');
+I = myLinearContrastStretching(im1);
+my_display(I,'stretched');
+
+%% Linear Contrast Enhancing - TEM
+my_display(im2,'original');
+I = myLinearContrastStretching(im2);
+my_display(I,'stretched');
+
+%% Linear Contrast Enhancing - canyon
+my_display(im3,'original');
+I = myLinearContrastStretching(im3);
+my_display(I,'stretched');
+
+%% Linear Contrast Enhancing - church
+%%% The image given is better than the image obtained using Linear Contrast 
+%%% Enhancing(LCE). By doing LCE darker regions turned more darker(reduction in contrast as well)
+%%% and hence the image became much more difficult to understand. 
+%%%
+my_display(im5,'original');
+I = myLinearContrastStretching(im5);
+my_display(I,'stretched');
+
+%% HE - barbara
+my_display(im1,'original');
+I = myHE(im1);
+my_display(I,'After HE');
+
+%% HE - TEM
+my_display(im2,'original');
+I = myHE(im2);
+my_display(I,'After HE');
+
+%% HE - canyon
+my_display(im3,'original');
+I = myHE(im3);
+my_display(I,'After HE');
+
+
+%% HE - church 
+%%% In this image clearly HE did much better than LCE. Definately HE would be preffered to enhance contrast
+%%% rather than LCE.
+my_display(im5,'original');
+I = myHE(im5);
+my_display(I,'After HE');
+
+%% HM - Retina 
+%%% Retina looked more realistic using HM compared to HE.
+%%% Retina after HM and given retina are very simmilar. 
+my_display(im4,'original');
+
+B = imhist(im6);
+
+for k=1:size(im4,3)
+
+    A = imhist(im4(:,:,k));
+    
+    A(1) = A(1) - B(1);
+    A = cumsum(A);
+    A = A/A(256);
+    for i=1:size(im4,1)
+       im(i,:,k) = A(im4(i,:,k)+1)*255;
+    end
+    
+    
+    x= im(:,:,k).*im6;
+    Iy(:,:,k) = x;
+end
+
+my_display(Iy,'After HE');
+
+I = myHM(im4,im7,im6,im8);
+my_display(I,'After HM');
+
+%% AHE - barbara
+my_display(im1,'original');
+I = myAHE(im1,300);
+my_display(I,'After AHE (large window size (300))');
+I = myAHE(im1,150);
+my_display(I,'After AHE (optimal 150)');
+I = myAHE(im1,25);
+my_display(I,'After AHE (small window size(25))');
+%% AHE - TEM
+my_display(im2,'original');
+I = myAHE(im2,300);
+my_display(I,'After AHE (large window size (300))');
+I = myAHE(im2,100);
+my_display(I,'After AHE (optimal(100))');
+I = myAHE(im2,25);
+my_display(I,'After AHE (small window size(25))');
+%% AHE - canyon 
+my_display(im3,'original');
+I = myAHE(im3,500);
+my_display(I,'After AHE (large window size(500)');
+I = myAHE(im3,250);
+my_display(I,'After AHE (optimal (250))');
+I = myAHE(im3,50);
+my_display(I,'After AHE (small window size(50))');
+
+%% CLAHE - barbara
+my_display(im1,'original');
+I = myCLAHE(im1,150,0.96);
+my_display(I,'After CLAHE');
+
+I = myCLAHE(im1,150,0.48);
+my_display(I,'After CLAHE(th/2)');
+
+%% CLAHE - TEM
+my_display(im2,'original');
+I = myCLAHE(im2,100,0.98);
+my_display(I,'After CLAHE');
+
+
+I = myCLAHE(im2,100,0.49);
+my_display(I,'After CLAHE(th/2)');
+
+%% CLAHE - canyon 
+my_display(im3,'original');
+I = myCLAHE(im3,200,0.99);
+my_display(I,'After CLAHE');
+
+
+I = myCLAHE(im3,200,0.49);
+my_display(I,'After CLAHE(th/2)');
+
+%%
+toc;
+##### SOURCE END #####
+--></body></html>
